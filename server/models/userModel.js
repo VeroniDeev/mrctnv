@@ -78,15 +78,13 @@ userSchema.pre("save", async function (next) {
 	this.motDePasse = await bcrypt.hash(this.motDePasse, 12);
 });
 
-userSchema.methods.comparePassword = async function (tryConnection) {
-	const realUser = await this.find({ mail: tryConnection.mail });
-	return await bcrypt.compare(
-		tryConnection.motDePasse,
-		realUser.motDePasse
-	);
+userSchema.methods.comparePassword = async function (
+	tryConPass,
+	realConnection
+) {
+	return await bcrypt.compare(tryConPass, realConnection);
 };
 
 const User = new mongoose.model("User", userSchema);
-const Carte = new mongoose.model("Carte", infoCredit);
 
 module.exports = User;

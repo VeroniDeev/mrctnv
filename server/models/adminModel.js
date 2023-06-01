@@ -37,6 +37,10 @@ adminSchema.pre("save", async function (next) {
 	this.motDePasse = await bcrypt.hash(this.motDePasse, 12);
 });
 
+adminSchema.methods.comparePassword = async function (adminPass, realPass) {
+	return await bcrypt.compare(adminPass, realPass);
+};
+
 const Admin = new mongoose.model("Admin", adminSchema);
 
 module.exports = Admin;

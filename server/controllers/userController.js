@@ -40,20 +40,22 @@ exports.createUser = async (req, res, next) => {
 	}
 };
 
-exports.logUser = (req, res, next) => {
+exports.logUser = async (req, res, next) => {
 	try {
 		const headers = req.headers;
-		const authorization = headers["Authorization"];
-		const token = authorization.split(" ")[1];
-		if (!authorization.includes("Baerer") || token == undefined) {
+		const idTryConnect = req.params.id;
+		const authorization = headers["authorization"];
+		const token = authorization.split(" ");
+		if (!token.includes("Baerer") || token[1] === undefined)
 			return next("Connexion expirée");
-		}
-		const idToken = jwtChecker(token);
-		if (User.findById(idToken) == null) {
-			return next("Utilisateur non existant");
-		}
+		const idToken = jwtChecker(token[1]);
+		const user = await User.findById(idToken);
+		if (user === null) return next("Utilisateur non existant");
+		if (!idTryConnect == user._id)
+			return next("Ce n'est pas votre compte");
 		res.status(200).json({
 			status: "succes",
+			user,
 		});
 	} catch (error) {
 		res.status(400).json({
@@ -67,7 +69,7 @@ exports.login = async (req, res, next) => {
 	try {
 		const logUser = req.body;
 		const getUser = await User.findOne({ mail: logUser.mail });
-		if (getUser == null) return next("Adresse email inconnu");
+		if (getUser === null) return next("Adresse email inconnu");
 		const isGoodPass = await getUser.comparePassword(
 			logUser.motDePasse,
 			getUser.motDePasse
@@ -78,6 +80,7 @@ exports.login = async (req, res, next) => {
 		res.status(200).json({
 			status: "succes",
 			token,
+			user: getUser,
 		});
 	} catch (error) {
 		res.status(400).json({
