@@ -1,0 +1,34 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: GoodTimes;
+  src: url('/fonts/GoodTimes.otf') format('opentype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  scroll-behavior: smooth;
+  &:any-link {
+    text-decoration: none;
+  }
+  body {
+    font-family: 'GoodTimes', sans-serif;
+    overflow-x: hidden;
+    background-color: black;
+    width: auto;
+    padding: auto;
+    display: flex;
+    flex-direction: row;
+    next-route-announcer {
+      position: absolute;
+      width: auto;
+      height: auto;
+    }
+  }
+}

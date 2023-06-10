@@ -1,0 +1,41 @@
+main {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: grid;
+  grid-template-rows: 100vh 100vh 100vh 100vh;
+  gap: 20px;
+  .part1 {
+    grid-row: 1;
+    position: absolute;
+    top: 20%;
+    left: 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100vw;
+    height: 65vh;
+    .part-presentation {
+      width: 30%;
+      height: auto;
+      position: relative;
+      top: 20%;
+      h1 {
+        font-size: 3rem;
+      }
+      a {
+        width: auto;
+        height: auto;
+        position: absolute;
+        left: 50%;
+        border: 1px solid white;
+        padding: 5px;
+        font-size: 20px;
+        letter-spacing: 4px;
+      }
+      &::before {
+        content: 'PULSAR';
+      }
+    }
+  }
+}
